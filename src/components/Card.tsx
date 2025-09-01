@@ -1,5 +1,5 @@
-import Image from "../Image/Image";
-import Button from "../Ui/Buttone";
+import Image from "./Image";
+import Button from "./Ui/Buttone";
 
 interface Iprops {
   image: string;

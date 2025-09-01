@@ -1,6 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, type ReactNode } from "react";
-import { colors, formInputsList } from "../../data";
 
 interface Ipropse {
   isOpen: boolean;
@@ -47,39 +46,7 @@ function Modal({ isOpen, closeModal, children, title }: Ipropse) {
                     </Dialog.Title>
                   )}
 
-                  <div className="mt-2 flex flex-col">
-                    {formInputsList.map((el) => {
-                      return (
-                        <>
-                          <label
-                            className="block my-2 text-gray-500"
-                            htmlFor={el.name}
-                          >
-                            {el.label}
-                          </label>
-                          <input
-                            className="border-2 border-blue-700 p-2 rounded-md focus:border-blue-950"
-                            type={el.type}
-                            name={el.name}
-                            id={el.name}
-                          />
-                        </>
-                      );
-                    })}
-                  </div>
-                  <div className="mt-2  flex space-x-1">
-                    {colors.map((el) => {
-                      return (
-                        <div
-                          key={el}
-                          className={`w-6 h-6 rounded-full`}
-                          style={{ backgroundColor: el }}
-                        ></div>
-                      );
-                    })}
-                  </div>
-
-                  <div className="mt-4 flex gap-5">{children}</div>
+                  <div className="mt-4 flex flex-col ">{children}</div>
                 </Dialog.Panel>
               </Transition.Child>
             </div>
