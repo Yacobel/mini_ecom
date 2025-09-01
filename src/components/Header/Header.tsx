@@ -1,16 +1,16 @@
+import type { ReactNode } from "react";
+
 interface Iprops {
   title: string;
-  btnContent: string;
+  children:ReactNode
 }
 
-function Header({ title, btnContent }: Iprops) {
+function Header({ title , children }: Iprops) {
   return (
     <>
       <div className="flex justify-between items-center">
         <h1 className="text-lg capitalize font-bold">{title}</h1>
-        <button className="px-3 py-2 bg-blue-800 rounded-lg text-white text-m cursor-pointer">
-          {btnContent}
-        </button>
+        {children}
       </div>
     </>
   );

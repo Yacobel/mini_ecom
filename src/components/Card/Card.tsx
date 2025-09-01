@@ -42,14 +42,14 @@ function Card({ image, title, des, price, category, alt }: Iprops) {
         </div>
         <div className="flex justify-between gap-4 items-center mt-5">
           <Button
-            className=" bg-blue-800"
+            className=" bg-blue-800 text-white"
             onClick={() => {
               console.log("clicked");
             }}
           >
             edit
           </Button>
-          <Button className=" bg-red-800">destroy</Button>
+          <Button className=" bg-red-800 text-white">destroy</Button>
         </div>
       </div>
     </>
