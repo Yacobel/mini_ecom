@@ -95,7 +95,7 @@ function App() {
             {inputs}
             <div className="flex gap-1">{color}</div>
             <div className="flex gap-3">
-              <Button className="bg-blue-800 text-white" onClick={closeModal}>
+              <Button className="bg-blue-800 text-white" onClick={closeModal }>
                 submit
               </Button>
               <Button className="bg-red-800 text-white" onClick={closeModal}>
