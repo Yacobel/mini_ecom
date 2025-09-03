@@ -1,16 +1,15 @@
 import Card from "./components/Card";
 import Header from "./components/Header";
 import Button from "./components/Ui/Buttone";
-import { colors, formInputsList } from "./data/index";
-import { useState } from "react";
 import Modale from "./components/Ui/Modale";
-import { productList } from "./data";
 import Inpute from "./components/Ui/Inputs";
+import { colors, formInputsList, productList } from "./data";
+import { useState } from "react";
 import type { IProduct } from "./interfaces";
+import { validation } from "./validation";
 
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [product, setProduct] = useState<IProduct>({
+  const productDefaults = {
     title: "",
     description: "",
     imageURL: "",
@@ -20,7 +19,9 @@ function App() {
       name: "",
       imageURL: "",
     },
-  });
+  };
+  const [isOpen, setIsOpen] = useState(false);
+  const [product, setProduct] = useState<IProduct>(productDefaults);
   const onchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setProduct({
@@ -28,7 +29,27 @@ function App() {
       [name]: value,
     });
   };
-  const closeModal = () => setIsOpen(false);
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+  function submitHandelr(e: React.MouseEvent<HTMLButtonElement>): void {
+    e.preventDefault();
+    const errores = validation({
+      title: product.title,
+      description: product.description,
+      imageURL: product.imageURL,
+      price: product.price,
+    });
+    console.log(errores);
+    closeModal();
+  }
+  function cancleHandler(e: React.MouseEvent<HTMLButtonElement>): void {
+    e.preventDefault();
+    closeModal();
+    setProduct(productDefaults);
+
+    console.log(product);
+  }
   const openModal = () => setIsOpen(true);
 
   const ListOfProduct = productList.map((el) => {
@@ -91,18 +112,21 @@ function App() {
           {ListOfProduct}
         </div>
         <Modale isOpen={isOpen} closeModal={closeModal} title="ADD NEW PRODUCT">
-          <div className="space-y-4 w-full">
+          <form className="space-y-4 w-full">
             {inputs}
             <div className="flex gap-1">{color}</div>
             <div className="flex gap-3">
-              <Button className="bg-blue-800 text-white" onClick={closeModal }>
+              <Button
+                className="bg-blue-800 text-white"
+                onClick={submitHandelr}
+              >
                 submit
               </Button>
-              <Button className="bg-red-800 text-white" onClick={closeModal}>
+              <Button className="bg-red-800 text-white" onClick={cancleHandler}>
                 cancle
               </Button>
             </div>
-          </div>
+          </form>
         </Modale>
       </main>
     </>
