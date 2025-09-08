@@ -8,6 +8,7 @@ import { useState } from "react";
 import type { IProduct } from "./interfaces";
 import { validation } from "./validation";
 
+
 function App() {
   const productDefaults = {
     title: "",
@@ -40,7 +41,15 @@ function App() {
       imageURL: product.imageURL,
       price: product.price,
     });
+    const haseerrors =
+      Object.values(errores).some((value) => value === "") &&
+      Object.values(errores).every((value) => value === "");
+    if (!haseerrors) {
+      return;
+    }
     console.log(errores);
+    
+    console.log("send to data base");
     closeModal();
   }
   function cancleHandler(e: React.MouseEvent<HTMLButtonElement>): void {
@@ -84,6 +93,7 @@ function App() {
           value={product[el.name]}
           onChange={onchangeHandler}
         ></Inpute>
+        {/* <Errore errore={ }></Errore> */}
       </div>
     );
   });
