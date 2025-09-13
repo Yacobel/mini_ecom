@@ -1,43 +1,45 @@
+import type { IProduct } from "../interfaces";
 import Image from "./Image";
 import Button from "./Ui/Buttone";
 
 interface Iprops {
-  image: string;
-  alt: string;
-  title: string;
-  des: string;
-  price: string;
-  category: string;
+  product : IProduct
 }
 
-function Card({ image, title, des, price, category, alt }: Iprops) {
+function Card({product}: Iprops) {
+  const { imageURL, colors, description, price, title } = product;
   return (
     <>
       <div className="flex flex-col justify-between max-w-sm mx-auto mt-10 border rounded-md p-2 md:max-w-lg">
         <Image
-          src={image}
+          src={imageURL}
           classN="object-cover w-[100%] h-[200px] rounded-lg"
-          alt={alt}
+          alt={title}
         />
         <h3 className="text-lg capitalize text-start mt-2">{title}</h3>
         <p className=" capitalize text-start mt-4 text-gray-400">
-          {`${des.slice(0, 150)}...`}
+          {description.slice(0,150)}...
         </p>
-        <div className="flex justify-start gap-2 mt-4 items-center">
-          <div className="w-5 h-5 rounded-full bg-amber-400"></div>
-          <div className="w-5 h-5 rounded-full bg-amber-500"></div>
-          <div className="w-5 h-5 rounded-full bg-amber-600"></div>
-          <div className="w-5 h-5 rounded-full bg-amber-700"></div>
+        <div className="flex justify-start gap-1 mt-4 items-center">
+          {colors.map((el) => {
+            return (
+              <span
+                key={el}
+                className="w-6 h-6 block rounded-full text-white"
+                style={{ backgroundColor: el }}
+              ></span>
+            );
+          })}
         </div>
         <div className="flex justify-between mt-4">
           <div className="font-bold text-lg text-blue-900">${price}</div>
           <div className="flex justify-center items-center gap-2">
             <Image
-              src={image}
+              src={imageURL}
               classN="w-8 h-8 object-cover rounded-full"
-              alt={alt}
+              alt={"ss"}
             />
-            <div className="text-md capitalize font-bold">{category}</div>
+            {/* <div className="text-md capitalize font-bold">{category}</div> */}
           </div>
         </div>
         <div className="flex justify-between gap-4 items-center mt-5">

@@ -4,11 +4,12 @@ import Button from "./components/Ui/Buttone";
 import Modale from "./components/Ui/Modale";
 import Inpute from "./components/Ui/Inputs";
 import { colors, formInputsList, productList } from "./data";
-import { useState } from "react";
+import {  useState } from "react";
 import type { IProduct } from "./interfaces";
 import { validation } from "./validation";
-
-
+import { Errore } from "./components/Errore";
+import { Colores } from "./components/Colores";
+import { v4 as uuid } from "uuid";
 function App() {
   const productDefaults = {
     title: "",
@@ -21,18 +22,28 @@ function App() {
       imageURL: "",
     },
   };
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
   const [isOpen, setIsOpen] = useState(false);
   const [product, setProduct] = useState<IProduct>(productDefaults);
+  const [temp, setTemp] = useState<string[]>([]);
+  const [allProducts , setAllAproducts] = useState <IProduct[]>(productList);
+  const [errorse, setErrorse] = useState({
+    title: "",
+    description: "",
+    imageURL: "",
+    price: "",
+  });
+  console.log(temp);
   const onchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setProduct({
       ...product,
       [name]: value,
     });
+    setErrorse({ ...errorse, [name]: "" });
   };
-  const closeModal = () => {
-    setIsOpen(false);
-  };
+
   function submitHandelr(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     const errores = validation({
@@ -45,33 +56,23 @@ function App() {
       Object.values(errores).some((value) => value === "") &&
       Object.values(errores).every((value) => value === "");
     if (!haseerrors) {
+      setErrorse(errores);
       return;
     }
-    console.log(errores);
-    
-    console.log("send to data base");
+    setAllAproducts((prev) => [...prev, { ...product, id : uuid() ,colors : temp}])
     closeModal();
   }
   function cancleHandler(e: React.MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
     closeModal();
     setProduct(productDefaults);
-
-    console.log(product);
   }
-  const openModal = () => setIsOpen(true);
 
-  const ListOfProduct = productList.map((el) => {
+  const ListOfProduct = allProducts.map((el) => {
     return (
       <div className="flex" key={el.id}>
         <Card
-          key={el.id}
-          image={el.imageURL}
-          alt={el.category.name}
-          title={el.title}
-          des={el.description}
-          price={el.price}
-          category={el.category.name}
+          product={el}
         ></Card>
       </div>
     );
@@ -83,9 +84,6 @@ function App() {
           {el.label}
         </label>
         <Inpute
-          className="p-2  border-2 w-full  border-gray-300  shadow-md rounded-md
-           focus:border-blue-400 focus:outline-none focus:ring-blue-700
-           text-md"
           type={el.type}
           name={el.name}
           id={el.id}
@@ -93,19 +91,23 @@ function App() {
           value={product[el.name]}
           onChange={onchangeHandler}
         ></Inpute>
-        {/* <Errore errore={ }></Errore> */}
+        <Errore msg={errorse[el.name]}></Errore>
       </div>
     );
   });
-  const color = colors.map((el) => {
-    return (
-      <div
-        key={el}
-        className={`w-6 h-6 rounded-full `}
-        style={{ backgroundColor: el }}
-      ></div>
-    );
-  });
+  const color = colors.map((el) => (
+    <Colores
+      key={el}
+      color={el}
+      onClick={() => {
+        if (temp.includes(el)) {
+          setTemp((prev) => prev.filter((ihtem) => ihtem !== el));
+          return
+        }
+        setTemp((prev) => [...prev, el]);
+      }}
+    ></Colores>
+  ));
 
   return (
     <>
@@ -125,6 +127,19 @@ function App() {
           <form className="space-y-4 w-full">
             {inputs}
             <div className="flex gap-1">{color}</div>
+            <div className="flex gap-1 flex-wrap ">
+              {temp.map((el) => {
+                return (
+                  <span
+                    key={el}
+                    className="px-1 rounded-md text-white"
+                    style={{ backgroundColor: el }}
+                  >
+                    {el}
+                  </span>
+                );
+              })}
+            </div>
             <div className="flex gap-3">
               <Button
                 className="bg-blue-800 text-white"
