@@ -4,7 +4,7 @@ import Button from "./components/Ui/Buttone";
 import Modale from "./components/Ui/Modale";
 import Inpute from "./components/Ui/Inputs";
 import { colors, formInputsList, productList } from "./data";
-import {  useState } from "react";
+import { useState } from "react";
 import type { IProduct } from "./interfaces";
 import { validation } from "./validation";
 import { Errore } from "./components/Errore";
@@ -27,14 +27,13 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [product, setProduct] = useState<IProduct>(productDefaults);
   const [temp, setTemp] = useState<string[]>([]);
-  const [allProducts , setAllAproducts] = useState <IProduct[]>(productList);
+  const [allProducts, setAllAproducts] = useState<IProduct[]>(productList);
   const [errorse, setErrorse] = useState({
     title: "",
     description: "",
     imageURL: "",
     price: "",
   });
-  console.log(temp);
   const onchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
     setProduct({
@@ -59,7 +58,12 @@ function App() {
       setErrorse(errores);
       return;
     }
-    setAllAproducts((prev) => [...prev, { ...product, id : uuid() ,colors : temp}])
+    setAllAproducts((prev) => [
+      ...prev,
+      { ...product, id: uuid(), colors: temp },
+    ]);
+    setTemp([""]);
+    setProduct(productDefaults);
     closeModal();
   }
   function cancleHandler(e: React.MouseEvent<HTMLButtonElement>): void {
@@ -71,9 +75,7 @@ function App() {
   const ListOfProduct = allProducts.map((el) => {
     return (
       <div className="flex" key={el.id}>
-        <Card
-          product={el}
-        ></Card>
+        <Card product={el}></Card>
       </div>
     );
   });
@@ -102,7 +104,7 @@ function App() {
       onClick={() => {
         if (temp.includes(el)) {
           setTemp((prev) => prev.filter((ihtem) => ihtem !== el));
-          return
+          return;
         }
         setTemp((prev) => [...prev, el]);
       }}
