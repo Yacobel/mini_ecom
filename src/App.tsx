@@ -3,13 +3,15 @@ import Header from "./components/Header";
 import Button from "./components/Ui/Buttone";
 import Modale from "./components/Ui/Modale";
 import Inpute from "./components/Ui/Inputs";
-import { colors, formInputsList, productList } from "./data";
-import { useState } from "react";
-import type { IProduct } from "./interfaces";
-import { validation } from "./validation";
 import { Errore } from "./components/Errore";
 import { Colores } from "./components/Colores";
+import Select from "./components/Ui/Select";
+import type { IProduct } from "./interfaces";
+import { validation } from "./validation";
+import { colors, formInputsList, productList } from "./data";
+import { useState } from "react";
 import { v4 as uuid } from "uuid";
+
 function App() {
   const productDefaults = {
     title: "",
@@ -74,7 +76,7 @@ function App() {
 
   const ListOfProduct = allProducts.map((el) => {
     return (
-      <div className="flex" key={el.id}>
+      <div key={el.id}>
         <Card product={el}></Card>
       </div>
     );
@@ -129,19 +131,24 @@ function App() {
           <form className="space-y-4 w-full">
             {inputs}
             <div className="flex gap-1">{color}</div>
-            <div className="flex gap-1 flex-wrap ">
-              {temp.map((el) => {
-                return (
-                  <span
-                    key={el}
-                    className="px-1 rounded-md text-white"
-                    style={{ backgroundColor: el }}
-                  >
-                    {el}
-                  </span>
-                );
-              })}
-            </div>
+
+            {temp.length != 0 ? (
+              <div className="flex gap-1 flex-wrap ">
+                {temp.map((el) => {
+                  return (
+                    <span
+                      key={el}
+                      className="px-1 rounded-md text-white"
+                      style={{ backgroundColor: el }}
+                    >
+                      {el}
+                    </span>
+                  );
+                })}
+              </div>
+            ) : null}
+
+            <Select></Select>
             <div className="flex gap-3">
               <Button
                 className="bg-blue-800 text-white"
