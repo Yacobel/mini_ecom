@@ -7,7 +7,7 @@ interface Iprops {
 }
 
 function Card({ product }: Iprops) {
-  const { imageURL, colors, description, price, title } = product;
+  const { imageURL, colors, description, price, title , category } = product;
   return (
     <>
       <div className="flex flex-col justify-between max-w-sm mx-auto h-full mt-10  border rounded-md p-2 md:max-w-lg">
@@ -38,11 +38,11 @@ function Card({ product }: Iprops) {
           <div className="font-bold text-lg text-blue-900">${price}</div>
           <div className="flex justify-center items-center gap-2">
             <Image
-              src={imageURL}
+              src={category.imageURL}
               classN="w-8 h-8 object-cover rounded-full"
-              alt={"ss"}
+              alt={category.name}
             />
-            {/* <div className="text-md capitalize font-bold">{category}</div> */}
+            <div className="text-md capitalize font-bold">{category.name}</div>
           </div>
         </div>
         <div className="flex justify-between gap-4 items-center mt-5">

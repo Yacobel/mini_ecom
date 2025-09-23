@@ -1,6 +1,4 @@
 "use client";
-
-import { useState } from "react";
 import {
   Label,
   Listbox,
@@ -11,16 +9,17 @@ import {
 import { ChevronUpDownIcon } from "@heroicons/react/16/solid";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { categories } from "../../data";
+import type { ICategory } from "../../interfaces";
 
-export default function Select() {
-  const [selected, setSelected] = useState(categories[3]);
-  console.log(selected);
+interface Iprops {
+  selected: ICategory;
+  setSelected: (categories: ICategory) => void;
+}
 
+export default function Select({ selected, setSelected }: Iprops) {
   return (
     <Listbox value={selected} onChange={setSelected}>
-      <Label className="block mb-3 font-medium text-black">
-        Categories
-      </Label>
+      <Label className="block mb-3 font-medium text-black">Categories</Label>
       <div className="relative">
         <ListboxButton className="grid w-full cursor-default grid-cols-1 rounded-md bg-white border-2  border-gray-700 py-1.5 pr-2 pl-3 text-left text-black outline-1 -outline-offset-1 outline-white/10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-500 sm:text-sm/6">
           <span className="col-start-1 row-start-1 flex items-center gap-3 pr-6">

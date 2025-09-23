@@ -8,6 +8,7 @@ import { Colores } from "./components/Colores";
 import Select from "./components/Ui/Select";
 import type { IProduct } from "./interfaces";
 import { validation } from "./validation";
+import { categories } from "./data";
 import { colors, formInputsList, productList } from "./data";
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
@@ -30,6 +31,9 @@ function App() {
   const [product, setProduct] = useState<IProduct>(productDefaults);
   const [temp, setTemp] = useState<string[]>([]);
   const [allProducts, setAllAproducts] = useState<IProduct[]>(productList);
+  const [selected, setSelected] = useState(categories[3]);
+  console.log(selected);
+
   const [errorse, setErrorse] = useState({
     title: "",
     description: "",
@@ -62,7 +66,7 @@ function App() {
     }
     setAllAproducts((prev) => [
       ...prev,
-      { ...product, id: uuid(), colors: temp },
+      { ...product, id: uuid(), colors: temp, category: selected },
     ]);
     setTemp([""]);
     setProduct(productDefaults);
@@ -148,7 +152,7 @@ function App() {
               </div>
             ) : null}
 
-            <Select></Select>
+            <Select selected={selected} setSelected={setSelected}></Select>
             <div className="flex gap-3">
               <Button
                 className="bg-blue-800 text-white"
