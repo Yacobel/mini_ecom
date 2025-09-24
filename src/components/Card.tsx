@@ -1,13 +1,20 @@
+import type { ButtonHTMLAttributes } from "react";
 import type { IProduct } from "../interfaces";
 import Image from "./Image";
 import Button from "./Ui/Buttone";
 
-interface Iprops {
+interface Iprops extends ButtonHTMLAttributes<HTMLButtonElement> {
   product: IProduct;
+  setProductToEdite: (product: IProduct) => void;
+  openEditModal: () => void;
 }
 
-function Card({ product }: Iprops) {
-  const { imageURL, colors, description, price, title , category } = product;
+function Card({ product, setProductToEdite, openEditModal }: Iprops) {
+  const { imageURL, colors, description, price, title, category } = product;
+  const editeHandeler = () => {
+    setProductToEdite(product);
+    openEditModal();
+  };
   return (
     <>
       <div className="flex flex-col justify-between max-w-sm mx-auto h-full mt-10  border rounded-md p-2 md:max-w-lg">
@@ -49,7 +56,7 @@ function Card({ product }: Iprops) {
           <Button
             className=" bg-blue-800 text-white"
             onClick={() => {
-              console.log("clicked");
+              editeHandeler();
             }}
           >
             edit
